@@ -1,0 +1,23 @@
+{
+  "name": "teams-bot-action",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/index.ts -o dist",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "axios": "^1.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.9",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.5.2",
+    "typescript": "^5.4.5",
+    "@vercel/ncc": "^0.38.0"
+  }
+}
