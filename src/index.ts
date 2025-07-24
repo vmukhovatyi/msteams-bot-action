@@ -18,7 +18,7 @@ async function run(): Promise<void> {
     core.info(`Getting Azure token...`);
 
     const oidcResponse = await axios.get(`${oidcUrl}&audience=api://AzureADTokenExchange`, {
-      headers: { Authorization: `bearer ${oidcToken}` }
+      headers: { Authorization: `bearer ${oidcToken}` },
     });
 
     const githubToken = oidcResponse.data.value;
@@ -32,7 +32,7 @@ async function run(): Promise<void> {
         grant_type: 'client_credentials',
         scope: 'https://api.botframework.com/.default',
       }),
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
     );
 
     const azureToken = tokenResponse.data.access_token;
@@ -43,9 +43,9 @@ async function run(): Promise<void> {
       {
         isGroup: true,
         channelData: { channel: { id: channelId } },
-        activity: { type: 'message', text: message }
+        activity: { type: 'message', text: message },
       },
-      { headers: { Authorization: `Bearer ${azureToken}` } }
+      { headers: { Authorization: `Bearer ${azureToken}` } },
     );
 
     core.info(`Message sent successfully! Status: ${response.status}`);

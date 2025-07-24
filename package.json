@@ -1,6 +1,7 @@
 {
-  "name": "teams-bot-action",
-  "version": "0.1.0",
+  "name": "msteams-bot-action",
+  "version": "1.0.0",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build src/index.ts -o dist",
@@ -14,10 +15,12 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.9",
-    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "@vercel/ncc": "^0.38.0",
+    "eslint": "^9.31.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.5.2",
-    "typescript": "^5.4.5",
-    "@vercel/ncc": "^0.38.0"
+    "typescript": "^5.4.5"
   }
 }
