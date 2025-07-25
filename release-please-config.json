@@ -1,8 +1,12 @@
 {
-  "release-type": "node",
-  "package-name": "msteams-bot-action",
-  "bump-minor-pre-major": true,
-  "include-component-in-tag": false,
-  "tag-separator": ".",
-  "branches": ["main"]
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "msteams-bot-action",
+      "bump-minor-pre-major": true,
+      "include-component-in-tag": false,
+      "tag-separator": ".",
+      "branches": ["main"]
+    }
+  }
 }
