@@ -111,11 +111,13 @@ All other variables (names, SKU, locations, tags) can be chosen freely according
     }
   ]
   ````
-
+  
   - everything else might be left by default
   - Do not confuse these IDs:
-    **id** (root of manifest) is the Teams App package ID and will be pre-generated for you
-    **bots[].botId** must be the Entra ID Application (client) ID of the bot
+
+    **id** (root of manifest) is the Teams App package ID and will be pre-generated for you.
+    **bots[].botId** must be the Entra ID Application (client) ID of the bot.
+
   - save changes
   - Click at **Preview in Teams**
   - Follow the instructions and add your app to the target Microsoft Teams team.
@@ -243,7 +245,7 @@ jobs:
 
     steps:
       - name: Use Action to Send Message
-        uses: vmukhovatyi/msteams-bot-action@v1
+        uses: vmukhovatyi/msteams-bot-action@v0
         with:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
