@@ -62,7 +62,7 @@ resource "azurerm_bot_channel_ms_teams" "teams" {
 
 ### Required inputs
 
-You must provide all required variables yourself.  
+You must provide all required variables yourself.
 The most important ones are:
 
 - `subscription_id` (required by the AzureRM provider configuration, not directly by the bot resource)
@@ -83,8 +83,8 @@ The Terraform code above:
 - enables the Microsoft Teams channel for the bot
 
 All other variables (names, SKU, locations, tags) can be chosen freely according to your environment and conventions.
-> **Note**  
-> `microsoft_app_type` is typically `"SingleTenant"` for enterprise/internal bots.
+
+> **Note** > `microsoft_app_type` is typically `"SingleTenant"` for enterprise/internal bots.
 
 ### 3. Add Bot to Teams
 
@@ -110,8 +110,8 @@ All other variables (names, SKU, locations, tags) can be chosen freely according
       "supportsFiles": false
     }
   ]
-  ````
-  
+  ```
+
   - everything else might be left by default
   - Do not confuse these IDs:
 
@@ -125,44 +125,41 @@ All other variables (names, SKU, locations, tags) can be chosen freely according
   - Example of full manifest.json:
 
   ```json
-    {
-      "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.schema.json",
-      "version": "1.0.0",
-      "manifestVersion": "1.22",
-      "id": "14771909-b752-45ff-b7ad-19fdd74fa461",
-      "name": {
-        "short": "cf-notifications-bot"
-      },
-      "developer": {
-        "name": "Cloud Foundation",
-        "websiteUrl": "https://yourdomain.com",
-        "privacyUrl": "https://yourdomain.com/privacy",
-        "termsOfUseUrl": "https://yourdomain.com/terms"
-      },
-      "description": {
-        "short": "A chat bot to deliver messages to teams",
-        "full": "Chat Bot, which uses federation credentials to deliver messages from github actions to teams group chat"
-      },
-      "icons": {
-        "outline": "outline.png",
-        "color": "color.png"
-      },
-      "accentColor": "#FFFFFF",
-      "bots": [
-        {
-          "botId": "<Your Entra ID App registration ID>",
-          "scopes": [
-            "groupChat",
-            "team"
-          ],
-          "isNotificationOnly": true,
-          "supportsCalling": false,
-          "supportsVideo": false,
-          "supportsFiles": false
-        }
-      ],
-      "validDomains": []
-    }
+  {
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.schema.json",
+    "version": "1.0.0",
+    "manifestVersion": "1.22",
+    "id": "14771909-b752-45ff-b7ad-19fdd74fa461",
+    "name": {
+      "short": "cf-notifications-bot"
+    },
+    "developer": {
+      "name": "Cloud Foundation",
+      "websiteUrl": "https://yourdomain.com",
+      "privacyUrl": "https://yourdomain.com/privacy",
+      "termsOfUseUrl": "https://yourdomain.com/terms"
+    },
+    "description": {
+      "short": "A chat bot to deliver messages to teams",
+      "full": "Chat Bot, which uses federation credentials to deliver messages from github actions to teams group chat"
+    },
+    "icons": {
+      "outline": "outline.png",
+      "color": "color.png"
+    },
+    "accentColor": "#FFFFFF",
+    "bots": [
+      {
+        "botId": "<Your Entra ID App registration ID>",
+        "scopes": ["groupChat", "team"],
+        "isNotificationOnly": true,
+        "supportsCalling": false,
+        "supportsVideo": false,
+        "supportsFiles": false
+      }
+    ],
+    "validDomains": []
+  }
   ```
 
 ### 4. Federated Credentials (GitHub OIDC)
@@ -214,12 +211,12 @@ Secret names are arbitrary; the example below assumes these names.
 
 This action accepts the following inputs:
 
-| Input        | Description                            | Required |
-| ------------ | -------------------------------------- | -------- |
-| `message`    | Message text to post to Teams          | Yes      |
-| `tenant-id`  | Your bot's app tenant id               | Yes      |
-| `client-id`  | Your bot's app client ID               | Yes      |
-| `channel-id` | Microsoft Teams channel ID to send to  | Yes      |
+| Input        | Description                           | Required |
+| ------------ | ------------------------------------- | -------- |
+| `message`    | Message text to post to Teams         | Yes      |
+| `tenant-id`  | Your bot's app tenant id              | Yes      |
+| `client-id`  | Your bot's app client ID              | Yes      |
+| `channel-id` | Microsoft Teams channel ID to send to | Yes      |
 
 ---
 
