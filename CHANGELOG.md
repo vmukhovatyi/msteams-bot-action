@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/vmukhovatyi/msteams-bot-action/compare/v0.1.3...v0.2.0) (2026-04-14)
+
+
+### Features
+
+* replace axios with native fetch ([2ad9cfa](https://github.com/vmukhovatyi/msteams-bot-action/commit/2ad9cfa6f797f08bb79c181f4366b0c76c2fc0b0))
+
 ## [0.1.3](https://github.com/vmukhovatyi/msteams-bot-action/compare/v0.1.2...v0.1.3) (2025-07-25)
 
 ### Bug Fixes
