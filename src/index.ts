@@ -1,5 +1,15 @@
 import * as core from '@actions/core';
-import axios from 'axios';
+
+async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(url, init);
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`HTTP ${response.status} ${response.statusText}: ${body}`);
+  }
+
+  return (await response.json()) as T;
+}
 
 async function run(): Promise<void> {
   try {
@@ -15,42 +25,57 @@ async function run(): Promise<void> {
       throw new Error('OIDC token or URL missing from environment.');
     }
 
-    core.info(`Getting Azure token...`);
+    core.info('Getting Azure token...');
 
-    const oidcResponse = await axios.get(`${oidcUrl}&audience=api://AzureADTokenExchange`, {
-      headers: { Authorization: `bearer ${oidcToken}` },
-    });
-
-    const githubToken = oidcResponse.data.value;
-
-    const tokenResponse = await axios.post(
-      `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
-      new URLSearchParams({
-        client_id: clientId,
-        client_assertion: githubToken,
-        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-        grant_type: 'client_credentials',
-        scope: 'https://api.botframework.com/.default',
-      }),
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
+    const oidcResponse = await fetchJson<{ value: string }>(
+      `${oidcUrl}&audience=api://AzureADTokenExchange`,
+      {
+        headers: { Authorization: `bearer ${oidcToken}` },
+      },
     );
 
-    const azureToken = tokenResponse.data.access_token;
-    core.info(`✅ Azure token obtained`);
+    const githubToken = oidcResponse.value;
 
-    const response = await axios.post(
-      'https://smba.trafficmanager.net/teams/v3/conversations',
+    const tokenResponse = await fetchJson<{ access_token: string }>(
+      `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
       {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: clientId,
+          client_assertion: githubToken,
+          client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+          grant_type: 'client_credentials',
+          scope: 'https://api.botframework.com/.default',
+        }),
+      },
+    );
+
+    const azureToken = tokenResponse.access_token;
+    core.info('Azure token obtained');
+
+    const response = await fetch('https://smba.trafficmanager.net/teams/v3/conversations', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${azureToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         isGroup: true,
         channelData: { channel: { id: channelId } },
         activity: { type: 'message', text: message },
-      },
-      { headers: { Authorization: `Bearer ${azureToken}` } },
-    );
+      }),
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`HTTP ${response.status} ${response.statusText}: ${body}`);
+    }
 
     core.info(`Message sent successfully! Status: ${response.status}`);
-  } catch (error: any) {
-    core.setFailed(error.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : `Unexpected error: ${String(error)}`;
+    core.setFailed(message);
   }
 }
 

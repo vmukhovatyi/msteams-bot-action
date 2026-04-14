@@ -13,7 +13,9 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
+        fetch: 'readonly',
         process: 'readonly',
+        RequestInit: 'readonly',
         URLSearchParams: 'readonly',
       },
     },
