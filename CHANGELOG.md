@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1](https://github.com/vmukhovatyi/msteams-bot-action/compare/v0.2.0...v0.2.1) (2026-06-12)
+
+
+### Bug Fixes
+
+* **deps:** update npm dependencies ([58feced](https://github.com/vmukhovatyi/msteams-bot-action/commit/58feced1da0a695da157df3cfcabc2e581a0f32c))
+* remove actions core dependency ([de6a5f6](https://github.com/vmukhovatyi/msteams-bot-action/commit/de6a5f6d88a0ff8b737e408fe77cfb8cf32a34fc))
+
 ## [0.2.0](https://github.com/vmukhovatyi/msteams-bot-action/compare/v0.1.3...v0.2.0) (2026-04-14)
 
 ### Features
