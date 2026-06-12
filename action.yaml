@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 METRO.digital GmbH
+
 name: 'Teams Bot Message'
 description: 'Send proactive message to Microsoft Teams via Azure Bot Framework'
 inputs:

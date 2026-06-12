@@ -249,3 +249,9 @@ jobs:
           channel-id: ${{ secrets.TEAMS_CHANNEL_ID }}
           message: ${{ github.event.inputs.message }}
 ```
+
+---
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
