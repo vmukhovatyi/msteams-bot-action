@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/vmukhovatyi/msteams-bot-action/compare/v0.2.1...v0.2.2) (2026-06-12)
+
+
+### Bug Fixes
+
+* read hyphenated action inputs correctly ([4da796a](https://github.com/vmukhovatyi/msteams-bot-action/commit/4da796ac6fe7cd774f74b855c8637530b13cea24))
+
 ## [0.2.1](https://github.com/vmukhovatyi/msteams-bot-action/compare/v0.2.0...v0.2.1) (2026-06-12)
 
 ### Bug Fixes
