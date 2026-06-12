@@ -4,8 +4,9 @@
 /* global console */
 
 function getInput(name: string, required = false): string {
-  const envName = `INPUT_${name.replace(/ /g, '_').replace(/-/g, '_').toUpperCase()}`;
-  const value = process.env[envName]?.trim() ?? '';
+  const envName = `INPUT_${name.replace(/ /g, '_').toUpperCase()}`;
+  const fallbackEnvName = `INPUT_${name.replace(/ /g, '_').replace(/-/g, '_').toUpperCase()}`;
+  const value = (process.env[envName] ?? process.env[fallbackEnvName] ?? '').trim();
 
   if (required && !value) {
     throw new Error(`Input required and not supplied: ${name}`);

@@ -9,8 +9,9 @@ var __webpack_exports__ = {};
 // Copyright 2026 METRO.digital GmbH
 /* global console */
 function getInput(name, required = false) {
-    const envName = `INPUT_${name.replace(/ /g, '_').replace(/-/g, '_').toUpperCase()}`;
-    const value = process.env[envName]?.trim() ?? '';
+    const envName = `INPUT_${name.replace(/ /g, '_').toUpperCase()}`;
+    const fallbackEnvName = `INPUT_${name.replace(/ /g, '_').replace(/-/g, '_').toUpperCase()}`;
+    const value = (process.env[envName] ?? process.env[fallbackEnvName] ?? '').trim();
     if (required && !value) {
         throw new Error(`Input required and not supplied: ${name}`);
     }
