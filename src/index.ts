@@ -1,7 +1,31 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright 2026 METRO.digital GmbH
 
-import * as core from '@actions/core';
+/* global console */
+
+function getInput(name: string, required = false): string {
+  const envName = `INPUT_${name.replace(/ /g, '_').replace(/-/g, '_').toUpperCase()}`;
+  const value = process.env[envName]?.trim() ?? '';
+
+  if (required && !value) {
+    throw new Error(`Input required and not supplied: ${name}`);
+  }
+
+  return value;
+}
+
+function info(message: string): void {
+  console.log(message);
+}
+
+function escapeWorkflowCommandValue(value: string): string {
+  return value.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+}
+
+function setFailed(message: string): void {
+  console.error(`::error::${escapeWorkflowCommandValue(message)}`);
+  process.exitCode = 1;
+}
 
 async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, init);
@@ -16,10 +40,10 @@ async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
 
 async function run(): Promise<void> {
   try {
-    const tenantId = core.getInput('tenant-id', { required: true });
-    const clientId = core.getInput('client-id', { required: true });
-    const channelId = core.getInput('channel-id', { required: true });
-    const message = core.getInput('message', { required: true });
+    const tenantId = getInput('tenant-id', true);
+    const clientId = getInput('client-id', true);
+    const channelId = getInput('channel-id', true);
+    const message = getInput('message', true);
 
     const oidcToken = process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
     const oidcUrl = process.env.ACTIONS_ID_TOKEN_REQUEST_URL;
@@ -28,7 +52,7 @@ async function run(): Promise<void> {
       throw new Error('OIDC token or URL missing from environment.');
     }
 
-    core.info('Getting Azure token...');
+    info('Getting Azure token...');
 
     const oidcResponse = await fetchJson<{ value: string }>(
       `${oidcUrl}&audience=api://AzureADTokenExchange`,
@@ -55,7 +79,7 @@ async function run(): Promise<void> {
     );
 
     const azureToken = tokenResponse.access_token;
-    core.info('Azure token obtained');
+    info('Azure token obtained');
 
     const response = await fetch('https://smba.trafficmanager.net/teams/v3/conversations', {
       method: 'POST',
@@ -75,10 +99,10 @@ async function run(): Promise<void> {
       throw new Error(`HTTP ${response.status} ${response.statusText}: ${body}`);
     }
 
-    core.info(`Message sent successfully! Status: ${response.status}`);
+    info(`Message sent successfully! Status: ${response.status}`);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : `Unexpected error: ${String(error)}`;
-    core.setFailed(message);
+    setFailed(message);
   }
 }
 
