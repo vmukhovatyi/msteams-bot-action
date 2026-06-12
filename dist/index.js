@@ -25559,6 +25559,8 @@ module.exports = {
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
+// SPDX-License-Identifier: Apache-2.0
+// Copyright 2026 METRO.digital GmbH
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);

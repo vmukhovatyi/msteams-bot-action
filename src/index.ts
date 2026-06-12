@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright 2026 METRO.digital GmbH
+
 import * as core from '@actions/core';
 
 async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
